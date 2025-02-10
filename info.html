@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>CV. Diorama .img</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- Header Section -->
+    <header class="header_section">
+      <div class="header_top">
+        <div class="container-fluid">
+          <div class="contact_nav">
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>Call : +62 8000</span>
+            </a>
+            <div id="login-button"></div>
+            <script>
+              let email = localStorage.getItem('emailLogin');
+              let loginButton = document.getElementById('login-button')
+              if (!email) {
+                loginButton.innerHTML = `<a href="#" onclick="document.getElementById('login').style.display='block'; return false;">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <span>Login</span>
+                </a>`
+              } else {
+                loginButton.innerHTML = `<a href="/" onclick="handleLogout()">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <span>Logout</span>
+                </a>`
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <a class="navbar-brand" href="/">
+              <span>CV. Diorama .img</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class=""> </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/tentang-kami">Tentang Kami</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="/info">Informasi</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/loker">Loker</a>
+                </li>
+              </ul>
+            </div>
+            <script>
+              let email1 = localStorage.getItem('emailLogin');
+              let navbarSupportedContent = document.getElementById('navbarSupportedContent')
+              if (email1) {
+                navbarSupportedContent.innerHTML = `<ul class="navbar-nav ">
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/tentang-kami">Tentang Kami</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/info">Informasi</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/data-pelamar">Data Pelamar</a>
+                  </li>
+                </ul>`
+              }
+            </script>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!-- End Header Section -->
+  </div>
+
+  <div id="login" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('login').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <section class="contact_section heading-modal">
+          <div class="container">
+            <div class="heading_container">
+              <h2>Login</h2>
+            </div>
+            <div class="row input-data-modal">
+              <div class="col-md-12">
+                <form onsubmit="handleLogin(event)">
+                  <div>
+                    <input id="email" type="text" placeholder="Email">
+                  </div>
+                  <div>
+                    <input id="password" type="password" placeholder="Password">
+                  </div>
+                  <input id="direct" type="hidden" value="/info">
+                  <div class="d-flex" style="margin-bottom: 10px;">
+                    <button type="submit">SEND</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="info-penting" class=" w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('info-penting').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <section class="contact_section heading-modal">
+          <div class="container">
+            <div class="heading_container">
+              <h2>
+                Informasi
+              </h2>
+            </div>
+            <div class="row input-data-modal">
+              <div class="col-md-12">
+                <form onsubmit="updateInformasi(event)" style="margin: 10px;">
+                  <div>
+                    <input id="judul" name="judul" type="text" placeholder="Judul" />
+                  </div>
+                  <div>
+                    <textarea id="deskripsi" name="deskripsi" type="text" placeholder="Deskripsi" cols="100" ></textarea>
+                  </div>
+                  <div class="d-flex">
+                    <button type="submit">
+                      SEND
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <div id="btn-update-info" style="color: white; position: absolute; display: flex; width: 100%; justify-content: flex-end; padding: 10px;"><button style="background-color: #0355cc; color: white;" onclick="document.getElementById('info-penting').style.display='block'">Update</button></div>
+  <script>
+    if (!email) {
+      document.getElementById('btn-update-info').style.display='none'
+    } else {
+      document.getElementById('btn-update-info').style.display='flex'
+    }
+  </script>
+  <section class="about_section layout_padding" style="background-image: url('/images/info-penting.jpg'); background-position: bottom;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-md-6">
+          <div id="display-info-penting" class="detail-box" style="color: white; margin-top: 180px; margin-bottom: 180px;">
+            <script>
+              let judul = localStorage.getItem('judul');
+              let deskripsi = localStorage.getItem('deskripsi');
+              let displayInfoPenting = document.getElementById('display-info-penting');
+
+              if (judul || deskripsi) {
+                displayInfoPenting.innerHTML = `<h2>${judul || 'Info Penting'}</h2>
+                  <p>
+                    ${(deskripsi && deskripsi.replace(/\n/g, '<br/>')) || 'Saat ini belum ada info penting terkait loker.'}
+                  </p>`
+              } else {
+                displayInfoPenting.innerHTML = `<h2>Info Penting</h2>
+                  <p>
+                    Saat ini belum ada info penting terkait loker.
+                  </p>`
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End About Section -->
+
+  <!-- Info Section -->
+  <section class="info_section">
+    <div class="container">
+      <h4>Kontak Kami</h4>
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <div class="info_items">
+            <div class="row">
+              <div class="col-md-4">
+                <a href="https://maps.app.goo.gl/4RnCjYbuuMz8gX9E7?g_st=iw">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                    <p>Jln. Empat Lima Singandaru, Serang, Kec. Serang, Kota Serang, banten, 42116</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="https://wa.me/+628000">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <p>+62 8000</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="mailto:skripsiagung@yopmail.com">
+                  <div class="item">
+                    <div class="img-box">
+                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </div>
+                    <p>skripsiagung@yopmail.com</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Info Section -->
+
+  <!-- Footer Section -->
+  <footer class="footer_section">
+    <div class="container">
+      <p>&copy; <span id="displayDateYear"></span> Web ini digunakan untuk kepentingan skripsi agung</p>
+    </div>
+  </footer>
+  <!-- End Footer Section -->
+
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <script src="js/custom.js"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+  <!-- End Google Map -->
+
+</body>
+
+</html>
