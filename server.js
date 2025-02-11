@@ -53,10 +53,10 @@ const handleSubmission = (req, res, type) => {
     data.cv = data.cv.slice(7, data.cv.length);
   }
 
-  const fullData = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+  const fullData = JSON.parse(fs.readFileSync('data/data.json', 'utf8'));
   const jsonData = JSON.stringify([...fullData, data]);
 
-  fs.writeFile('data.json', jsonData, (err) => {
+  fs.writeFile('data/data.json', jsonData, (err) => {
     if (err) {
       console.error('Terjadi kesalahan saat menulis file:', err);
       res.redirect('/loker?pesan=Terjadi kesalahan saat menyimpan data.');
@@ -84,7 +84,7 @@ app.get('/data-json', (req, res) => {
     return;
   }
 
-  fs.readFile('data.json', 'utf8', (err, data) => {
+  fs.readFile('data/data.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Terjadi kesalahan saat membaca file:', err);
       res.status(500).send('Tidak dapat membaca data.');
@@ -97,7 +97,7 @@ app.get('/data-json', (req, res) => {
 app.get('/hapus/:id', (req, res) => {
   const { id } = req.params
 
-  fs.readFile('data.json', 'utf8', (err, data) => {
+  fs.readFile('data/data.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Terjadi kesalahan saat membaca file:', err);
       res.status(500).send('Tidak dapat membaca data.');
@@ -107,7 +107,7 @@ app.get('/hapus/:id', (req, res) => {
 
     parseData.splice(parseData.findIndex(val => val.id == id), 1)
 
-    fs.writeFile('data.json', JSON.stringify(parseData), (err) => {
+    fs.writeFile('data/data.json', JSON.stringify(parseData), (err) => {
       if (err) {
         console.error('Terjadi kesalahan saat menulis file:', err);
         res.redirect('/data-pelamar?pesan=Terjadi kesalahan saat menghapus data.');
@@ -127,6 +127,25 @@ app.get('/login', (req, res) => {
     res.status(401).send('Email atau password tidak valid');
   }
 });
+
+app.get('/register', (req, res) => {
+  const { username, password, direct} = req.query;
+  let users = JSON.parse(fs.readFileSync('data/users.json', 'utf8'));
+
+  if (users.find(val => val.username == username)) {
+    res.status(500).json({ message: 'username already exist' })
+  } else {
+    users = [...users, { username, password, isAdmin: false }]
+    fs.writeFile('data/users.json', JSON.stringify(users), (err) => {
+      if (err) {
+        console.error('Terjadi kesalahan saat menulis file:', err);
+        res.status(401).json({ message: 'username tidak valid' });
+      }
+      const token = jwt.sign({ email: username }, 'rahasia', { expiresIn: '1h' });
+      return res.status(200).json({ token, username });
+    });
+  }
+})
 
 app.post('/upload-files', async (req, res) => {
   let date = Date.now()
@@ -160,10 +179,10 @@ app.post('/upload-files', async (req, res) => {
 });
 
 app.get('/update-informasi', (req, res) => {
-  const fullData = JSON.parse(fs.readFileSync('informasi-penting.json', 'utf8'));
+  const fullData = JSON.parse(fs.readFileSync('data/informasi-penting.json', 'utf8'));
   const jsonData = JSON.stringify(Object.assign(fullData, req.query));
 
-  fs.writeFile('informasi-penting.json', jsonData, (err) => {
+  fs.writeFile('data/informasi-penting.json', jsonData, (err) => {
     if (err) {
       console.error('Terjadi kesalahan saat menulis file:', err);
       res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan data.' });
