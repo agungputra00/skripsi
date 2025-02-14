@@ -19,6 +19,16 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/responsive.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const notification = urlParams.get('pesan');
+
+      if (notification) {
+        alert(notification); // Tampilkan notifikasi menggunakan alert
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -124,6 +134,13 @@
                   <input id="direct" type="hidden" value="/info">
                   <div class="d-flex" style="margin-bottom: 10px;">
                     <button type="submit">SEND</button>
+                    <div style="display: flex; flex: 1; justify-content: flex-end;">
+                      <a href="/registrasi">
+                        <button type="button">
+                          Registrasi
+                        </button>
+                      </a>
+                    </div>
                   </div>
                 </form>
               </div>

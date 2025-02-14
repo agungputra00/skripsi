@@ -18,6 +18,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const notification = urlParams.get('pesan');
+
+      if (notification) {
+        alert(notification); // Tampilkan notifikasi menggunakan alert
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -123,6 +133,13 @@
                   <input id="direct" type="hidden" value="/data-pelamar">
                   <div class="d-flex" style="margin-bottom: 10px;">
                     <button type="submit">SEND</button>
+                    <div style="display: flex; flex: 1; justify-content: flex-end;">
+                      <a href="/registrasi">
+                        <button type="button">
+                          Registrasi
+                        </button>
+                      </a>
+                    </div>
                   </div>
                 </form>
               </div>

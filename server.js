@@ -28,6 +28,10 @@ app.get('/info', (req, res) => {
   res.sendFile(__dirname + '/info.html');
 });
 
+app.get('/registrasi', (req, res) => {
+  res.sendFile(__dirname + '/registrasi.html');
+});
+
 const handleSubmission = (req, res, type) => {
   const data = {
     id: Date.now(), // Menambahkan ID yang di-generate berdasarkan timestamp
@@ -120,29 +124,39 @@ app.get('/hapus/:id', (req, res) => {
 
 app.get('/login', (req, res) => {
   const { email, password, direct } = req.query;
-  if (email == 'admin' && password == 'admin') {
-    const token = jwt.sign({ email }, 'rahasia', { expiresIn: '1h' });
-    res.json({ token, direct });
-  } else {
-    res.status(401).send('Email atau password tidak valid');
-  }
+  fs.readFile('data/users.json', (err, data) => {
+    if (err) {
+      console.error('Terjadi kesalahan saat membaca file:', err);
+      res.status(500).send('Tidak dapat membaca data.');
+      return;
+    }
+    let users = JSON.parse(data)
+    let user = users.find(val => val.username == email)
+
+    if (user && user.password == password) {
+      const token = jwt.sign({ email }, 'rahasia', { expiresIn: '1h' });
+      res.json({ token, direct: `${direct}?pesan=${email} Berhasil Login` });
+    } else {
+      res.status(401).send('Email atau password tidak valid');
+    }
+  })
 });
 
-app.get('/register', (req, res) => {
-  const { username, password, direct} = req.query;
+app.post('/register', (req, res) => {
+  const { username, password, direct} = req.body;
   let users = JSON.parse(fs.readFileSync('data/users.json', 'utf8'));
 
   if (users.find(val => val.username == username)) {
-    res.status(500).json({ message: 'username already exist' })
+    res.redirect('/registrasi?pesan=username sudah terdaftar')
   } else {
     users = [...users, { username, password, isAdmin: false }]
     fs.writeFile('data/users.json', JSON.stringify(users), (err) => {
       if (err) {
         console.error('Terjadi kesalahan saat menulis file:', err);
-        res.status(401).json({ message: 'username tidak valid' });
+        return res.redirect('/registrasi?pesan=username tidak valid');
       }
-      const token = jwt.sign({ email: username }, 'rahasia', { expiresIn: '1h' });
-      return res.status(200).json({ token, username });
+
+      return res.redirect('/?pesan=Berhasil membuat account')
     });
   }
 })
