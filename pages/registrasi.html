@@ -47,7 +47,7 @@
               let email = localStorage.getItem('emailLogin');
               let loginButton = document.getElementById('login-button')
               if (!email) {
-                loginButton.innerHTML = `<a href="#" onclick="document.getElementById('login').style.display='block'; return false;">
+                loginButton.innerHTML = `<a href="/diorama-login">
                   <i class="fa fa-user" aria-hidden="true"></i>
                   <span>Login</span>
                 </a>`
@@ -82,9 +82,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/info">Informasi</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/loker">Loker</a>
-                </li>
               </ul>
             </div>
             <script>
@@ -100,6 +97,9 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/info">Informasi</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/loker">Loker</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/data-pelamar">Data Pelamar</a>
@@ -128,7 +128,7 @@
               <div class="col-md-12">
                 <form onsubmit="handleLogin(event)">
                   <div>
-                    <input id="email" type="text" placeholder="Email">
+                    <input id="email" type="email" placeholder="Email">
                   </div>
                   <div>
                     <input id="password" type="password" placeholder="Password">
@@ -153,41 +153,6 @@
     </div>
   </div>
 
-  <div id="info-penting" class=" w3-modal">
-    <div class="w3-modal-content">
-      <div class="w3-container">
-        <span onclick="document.getElementById('info-penting').style.display='none'"
-          class="w3-button w3-display-topright">&times;</span>
-        <section class="contact_section heading-modal">
-          <div class="container">
-            <div class="heading_container">
-              <h2>
-                Informasi
-              </h2>
-            </div>
-            <div class="row input-data-modal">
-              <div class="col-md-12">
-                <form onsubmit="updateInformasi(event)" style="margin: 10px;">
-                  <div>
-                    <input id="judul" name="judul" type="text" placeholder="Judul" />
-                  </div>
-                  <div>
-                    <textarea id="deskripsi" name="deskripsi" type="text" placeholder="Deskripsi" cols="100"></textarea>
-                  </div>
-                  <div class="d-flex">
-                    <button type="submit">
-                      SEND
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
-
   <!-- About Section -->
   <section class="about_section layout_padding">
     <div class="container">
@@ -201,7 +166,7 @@
           <div class="col-md-12">
             <form action="/register" method="post">
               <div>
-                <input name="username" type="text" placeholder="Username atau Email" />
+                <input name="username" type="email" placeholder="Email" />
               </div>
               <div>
                 <input name="password" type="password" placeholder="password" />

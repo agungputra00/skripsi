@@ -9,27 +9,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/pages/index.html');
 });
 
 app.get('/loker', (req, res) => {
-  res.sendFile(__dirname + '/loker.html');
+  res.sendFile(__dirname + '/pages/loker.html');
 });
 
 app.get('/tentang-kami', (req, res) => {
-  res.sendFile(__dirname + '/tentang-kami.html');
+  res.sendFile(__dirname + '/pages/tentang-kami.html');
 });
 
 app.get('/data-pelamar', (req, res) => {
-  res.sendFile(__dirname + '/data-pelamar.html');
+  res.sendFile(__dirname + '/pages/data-pelamar.html');
 });
 
 app.get('/info', (req, res) => {
-  res.sendFile(__dirname + '/info.html');
+  res.sendFile(__dirname + '/pages/info.html');
+});
+
+app.get('/diorama-login', (req, res) => {
+  res.sendFile(__dirname + '/pages/login.html');
 });
 
 app.get('/registrasi', (req, res) => {
-  res.sendFile(__dirname + '/registrasi.html');
+  res.sendFile(__dirname + '/pages/registrasi.html');
 });
 
 const handleSubmission = (req, res, type) => {
@@ -98,6 +102,62 @@ app.get('/data-json', (req, res) => {
   });
 });
 
+app.get('/approve/:id', (req, res) => {
+  const { id } = req.params
+
+  fs.readFile('data/data.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Terjadi kesalahan saat membaca file:', err);
+      res.status(500).send('Tidak dapat membaca data.');
+      return;
+    }
+    let parseData = JSON.parse(data);
+
+    let isData = parseData.find(val => val.id == id);
+    let isIndex = parseData.findIndex(val => val.id == id);
+    isData.status = 'approved';
+
+    parseData[isIndex] = isData;
+
+    fs.writeFile('data/data.json', JSON.stringify(parseData), (err) => {
+      if (err) {
+        console.error('Terjadi kesalahan saat menulis file:', err);
+        res.redirect('/data-pelamar?pesan=Terjadi kesalahan saat menyetujui data.');
+        return;
+      }
+      res.redirect('/data-pelamar?pesan=Berhasil Menyetujui');
+    });
+  });
+});
+
+app.get('/reject/:id', (req, res) => {
+  const { id } = req.params
+
+  fs.readFile('data/data.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Terjadi kesalahan saat membaca file:', err);
+      res.status(500).send('Tidak dapat membaca data.');
+      return;
+    }
+    let parseData = JSON.parse(data);
+
+    let isData = parseData.find(val => val.id == id);
+    let isIndex = parseData.findIndex(val => val.id == id);
+    isData.status = 'rejected';
+
+    parseData[isIndex] = isData;
+
+    fs.writeFile('data/data.json', JSON.stringify(parseData), (err) => {
+      if (err) {
+        console.error('Terjadi kesalahan saat menulis file:', err);
+        res.redirect('/data-pelamar?pesan=Terjadi kesalahan saat reject data.');
+        return;
+      }
+      res.redirect('/data-pelamar?pesan=Berhasil Reject');
+    });
+  });
+});
+
 app.get('/hapus/:id', (req, res) => {
   const { id } = req.params
 
@@ -135,7 +195,7 @@ app.get('/login', (req, res) => {
 
     if (user && user.password == password) {
       const token = jwt.sign({ email }, 'rahasia', { expiresIn: '1h' });
-      res.json({ token, direct: `${direct}?pesan=${email} Berhasil Login` });
+      res.json({ token, isAdmin: user.isAdmin, direct: `${direct}?pesan=${email} Berhasil Login` });
     } else {
       res.status(401).send('Email atau password tidak valid');
     }
